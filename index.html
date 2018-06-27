@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<title>Rock Paper Scissors</title>
+
+	<!-- BOOTSTRAP -->
+	<link href="./bootstrap.min.css" type="text/css" rel="stylesheet">
+
+	<!-- JQUERY -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+	<!-- FIREBASE -->
+	<script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+
+	<!-- CUSTOM JS -->
+	<script src="./logic.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="container">
+
+		<!-- JUMBOTRON SECTION -->
+		<div class="jumbotron text-center">
+		  <h1 class="display-4">Rock, Paper, Scissors Game</h1>
+		</div>
+
+		<!-- GAME INSTRUCTIONS SECTION -->
+		<div class="card">
+		  <div class="card-body text-center">
+		    <form>
+		    	<label for="name-input"></label>
+		    	<input type="text" id="name-input" placeholder="Enter your name...">
+		    	<button type="submit" id="name-btn" class="btn btn-primary">Submit</button>
+		    </form>
+		  </div>
+		</div>
+		<br>
+
+		<!-- GAME SECTION -->
+		<div class="row">
+			<div class="col-md-4">
+				<!-- Player One Section -->
+				<div class="card">
+				  <div class="card-header">
+				    Player One
+				  </div>
+				  <div class="card-body" id="player-one-div"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<!-- Results Section -->
+				<div class="card">
+				  <div class="card-header">
+				    Results
+				  </div>
+				  <div class="card-body" id="results-div"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<!-- Player Two Section -->
+				<div class="card">
+				  <div class="card-header">
+				    Player Two
+				  </div>
+				  <div class="card-body" id="player-two-div"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
