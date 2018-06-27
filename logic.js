@@ -21,6 +21,8 @@ $(document).ready(function() {
 	var canPlay = false;
 	var options = ["r", "p", "s"];
 
+	// var playersKey = "";
+
 // ========== FUNCTIONS ==========
 
 	// When there are no players, display the following...
@@ -51,17 +53,16 @@ $(document).ready(function() {
 
 	// Sets the players
 	function setPlayers(playersInfo) {
-		// console.log(playerNumber);
-		console.log(playersInfo);
 
+		// Grab the keys of the connections object saved in firebase
 		var players = Object.keys(playersInfo);
-		console.log(players);
 
 		// If there is only one player...
 		if (players.length === 1) {
 
 			// Store player one key value
 			playerOneKey = players[0];
+
 
 			// Display player's one name
 			displayPlayer(playersInfo[playerOneKey].name, "#player-one-div");
@@ -75,9 +76,13 @@ $(document).ready(function() {
 			playerOneKey = players[0];
 			displayPlayer(playersInfo[playerOneKey].name, "#player-one-div");
 
+
 			// Set and display player two and display name
 			playerTwoKey = players[1];
 			displayPlayer(playersInfo[playerTwoKey].name, "#player-two-div");
+
+			// Start the game
+			startGame();
 		}
 	}
 
@@ -87,6 +92,42 @@ $(document).ready(function() {
 		$(section).html(p);
 	}
 
+	// Start the game by...
+	function startGame() {
+		// hiding the add new player form
+		$("#form-div").hide();
+
+		// Initial game instructions
+		$("#results-div").html("<p>Let's play! Player one goes first...</p>");
+
+		canPlay = true;
+		playerOneTurn = true;
+	}
+
+	// When a key is pressed...
+	function play() {
+
+		// Check if we can play
+		if (canPlay) {
+
+			// Continue if r, p, or s where pressed
+			if (event.key === "r" || event.key === "p" || event.key === "s") {
+
+				// If it's player's one turn, then store their pick
+				if (playerOneTurn) {
+					playerOneTurn = false;
+					playerTwoTurn = true;
+					$("#results-div").html("<p>Player's two turn...</p>");
+
+				}
+				// If it's player's two turn, then store their pick
+				else if (playerTwoTurn) {
+					console.log("store player two pick");
+					playerTwoTurn = false;
+				}
+			}
+		}
+	}
 
 // ========== MAIN PROCESSES ==========
 
@@ -115,4 +156,7 @@ $(document).ready(function() {
 	// When a user wants to join, set the player
 	$("#name-btn").click(addPlayer);
 
+	// When a user presses a key...
+	document.onkeyup = play;
+	
 });
