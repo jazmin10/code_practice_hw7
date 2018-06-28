@@ -45,31 +45,11 @@
 				      <th scope="col">Minutes Away</th>
 				    </tr>
 				  </thead>
-				  <tbody id="table-body" class="text-center">
-				    <!-- <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td>Larry</td>
-				      <td>the Bird</td>
-				      <td>@twitter</td>
-				    </tr> -->
-				  </tbody>
+				  <tbody id="table-body" class="text-center"></tbody>
 				</table>
 		  </div>
 		</div>
 		<br>
-
 
 		<!-- ADD TRAIN SECTION -->
 		<div class="card">
@@ -98,6 +78,37 @@
 				</form>
 		  </div>
 		</div>
+		<br>
+
+		<!-- EDIT TRAIN SECTION -->
+		<div class="card">
+		  <div class="card-header">
+		    Edit Train
+		  </div>
+		  <div class="card-body">
+		  	<!-- Edit Form -->
+		    <form>
+				  <div class="form-group">
+				    <label for="name-edit">Train Name</label>
+				    <input type="text" class="form-control" id="name-edit">
+				  </div>
+				  <div class="form-group">
+				    <label for="destination-edit">Destination</label>
+				    <input type="text" class="form-control" id="destination-edit">
+				  </div>
+				  <div class="form-group">
+				    <label for="first-time-edit">First Time(HH:mm - military time)</label>
+				    <input type="text" class="form-control" id="first-time-edit">
+				  </div>
+				  <div class="form-group">
+				    <label for="frequency-edit">Frequency(min)</label>
+				    <input type="number" class="form-control" id="frequency-edit" min="0">
+				  </div>
+				  <button id="edit-btn" type="submit" class="btn btn-primary">Submit</button>
+				</form>
+		  </div>
+		</div>
+		<br>
 
 	</div>
 	

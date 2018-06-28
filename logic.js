@@ -36,36 +36,48 @@ $(document).ready(function() {
 
 	}
 
-	// Displays a train
-	function displayTrains(train) {
+	// Displays train list
+	function displayTrains(trains) {
 
-		// Grab the minutes left for the next arrival
-		var minutesAway = determineMinutesAway(train.firstTime, train.frequency);
+		// Make an array of the object's keys
+		var trainsArr = Object.keys(trains);
 
-		// Grab the next arrival time
-		var nextTime = determineNextArrival(minutesAway);
+		// Loop through the array
+		trainsArr.forEach(function(trainItem) {
+			// Store current train
+			var train = trains[trainItem];
 
-		// Create a table row
-		var tr = $("<tr>");
+			// Grab the minutes left for the next arrival
+			var minutesAway = determineMinutesAway(train.firstTime, train.frequency);
 
-		// Set td cells
-		var nameVal = $("<th>").text(train.name);
-		nameVal.attr("scope", "row"); // to make cell text bold
+			// Grab the next arrival time
+			var nextTime = determineNextArrival(minutesAway);
 
-		var destVal = $("<td>").text(train.destination);
-		var freqVal = $("<td>").text(train.frequency);
-		var nextVal = $("<td>").text(nextTime);
-		var awayVal = $("<td>").text(minutesAway);
+			// Create a table row
+			var tr = $("<tr>");
+			tr.attr("value", trainItem);
 
-		// Append cells to rows
-		tr.append(nameVal)
-			.append(destVal)
-			.append(freqVal)
-			.append(nextVal)
-			.append(awayVal);
+			// Set td cells
+			var nameVal = $("<th>").text(train.name);
+			nameVal.attr("scope", "row"); // to make cell text bold
 
-		// append table row to table body
-		$("#table-body").append(tr);
+			var destVal = $("<td>").text(train.destination);
+			var freqVal = $("<td>").text(train.frequency);
+			var nextVal = $("<td>").text(nextTime);
+			var awayVal = $("<td>").text(minutesAway);
+
+			// Append cells to rows
+			tr.append(nameVal)
+				.append(destVal)
+				.append(freqVal)
+				.append(nextVal)
+				.append(awayVal);
+
+			// append table row to table body
+			$("#table-body").append(tr);
+
+		});
+
 	}
 
 	// Determine next arrival time by...
@@ -107,12 +119,13 @@ $(document).ready(function() {
 
 	$("#submit-btn").click(addTrain);
 
-	// The callback function is triggered during initial load for each child
-	// and when a child is added
-	databaseRef.on("child_added", function(trainsSnapshot) {
+	// The callback function is triggered everytime the databaseRef values change and initial load
+	databaseRef.on("value", function(trainsSnapshot) {
 		
 		// Display trains during initial load OR display the new train
 		displayTrains(trainsSnapshot.val());
 	});
+
+	// $("#edit-btn").click(editTrain);
 
 });
