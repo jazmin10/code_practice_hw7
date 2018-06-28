@@ -12,15 +12,37 @@ $(document).ready(function() {
 		messagingSenderId: "794333455197"
 	};
 
-var databaseRef;
+	var databaseRef;
 
 // ================== FUNCTIONS ==================
+
+	// Grab new train information and store it in database
+	function addTrain() {
+		event.preventDefault();
+		
+		var newTrain = {
+			name: $("#name-input").val().trim(),
+			destination: $("#destination-input").val().trim(),
+			firstTime: $("#first-time-input").val().trim(),
+			frequency: $("#frequency-input").val().trim(),
+		};
+
+		$("#name-input").val("");
+		$("#destination-input").val("");
+		$("#first-time-input").val("");
+		$("#frequency-input").val("");
+
+		databaseRef.push(newTrain);
+
+	}
 
 // ================== MAIN PROCESSES ==================
 
 	// Initialize Firebase
 	firebase.initializeApp(config);
 
-	// Create a reference to the database
-	databaseRef = firebase.database().ref();
+	// Create a reference to the path "/trains" in the database
+	databaseRef = firebase.database().ref("/trains");
+
+	$("#submit-btn").click(addTrain);
 });
