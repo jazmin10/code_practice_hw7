@@ -146,9 +146,13 @@ $(document).ready(function() {
 		firebase.database().ref("/trains/" + trainKey).set(newTrainInfo);
 	}
 
+	// Delete the train by...
 	function deleteTrain() {
+		// Grab the train's key in database which was stored as value in the button element
 		var deleteKey = $(this).attr("value");
 
+		// Remove the specific train
+		// the remove() method deletes the database at the ref() location specified
 		firebase.database().ref("/trains/" + deleteKey).remove();
 	}
 
@@ -172,6 +176,7 @@ $(document).ready(function() {
 	// When you click the button in the edit form, update the train's information
 	$("#edit-btn").click(editTrain);
 
+	// When user click's a delete-btn, delete the train
 	$("#table-body").on("click", ".delete-btn", deleteTrain);
 
 });
