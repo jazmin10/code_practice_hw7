@@ -36,6 +36,67 @@ $(document).ready(function() {
 
 	}
 
+	// Displays a train
+	function displayTrains(train) {
+
+		// Grab the minutes left for the next arrival
+		var minutesAway = determineMinutesAway(train.firstTime, train.frequency);
+
+		// Grab the next arrival time
+		var nextTime = determineNextArrival(minutesAway);
+
+		// Create a table row
+		var tr = $("<tr>");
+
+		// Set td cells
+		var nameVal = $("<th>").text(train.name);
+		nameVal.attr("scope", "row"); // to make cell text bold
+
+		var destVal = $("<td>").text(train.destination);
+		var freqVal = $("<td>").text(train.frequency);
+		var nextVal = $("<td>").text(nextTime);
+		var awayVal = $("<td>").text(minutesAway);
+
+		// Append cells to rows
+		tr.append(nameVal)
+			.append(destVal)
+			.append(freqVal)
+			.append(nextVal)
+			.append(awayVal);
+
+		// append table row to table body
+		$("#table-body").append(tr);
+	}
+
+	// Determine next arrival time by...
+	function determineMinutesAway(trainStart, trainFreq) {
+		// Store the train's first arrival
+		// Subtract one year to first arrival time so that we are always 
+		// calculating minutes away from a past time
+		var initialTime = moment(trainStart, "HH:mm").subtract(1, "years");
+
+		// Calculate the minutes lapsed from first arrival
+		var timeLapsed = moment().diff(initialTime, "minutes");
+		// console.log(timeLapsed); 
+
+		// Calculate minutes passed from last arrival
+		var minsPassed = timeLapsed % parseFloat(trainFreq);
+		// console.log(minsPassed);
+
+		// calculate minutes away for next arrival
+		var minsAway = parseFloat(trainFreq) - minsPassed;
+		
+		return minsAway;
+	}
+
+	// Calculate next arrival time
+	function determineNextArrival(minsLeft) {
+
+		// Calculate next arrival time by adding minutes left for next arrival to present time
+		// then format for readability
+		return moment().add(minsLeft, "m").format("HH:mm A");
+	}
+
 // ================== MAIN PROCESSES ==================
 
 	// Initialize Firebase
@@ -45,4 +106,13 @@ $(document).ready(function() {
 	databaseRef = firebase.database().ref("/trains");
 
 	$("#submit-btn").click(addTrain);
+
+	// The callback function is triggered during initial load for each child
+	// and when a child is added
+	databaseRef.on("child_added", function(trainsSnapshot) {
+		
+		// Display trains during initial load OR display the new train
+		displayTrains(trainsSnapshot.val());
+	});
+
 });
