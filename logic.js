@@ -68,12 +68,18 @@ $(document).ready(function() {
 			var nextVal = $("<td>").text(nextTime);
 			var awayVal = $("<td>").text(minutesAway);
 
+			var deleteBtn = $("<button>");
+			deleteBtn.addClass("btn btn-danger btn-sm delete-btn");
+			deleteBtn.attr("value", trainItem);
+			deleteBtn.text("X");
+
 			// Append cells to rows
 			tr.append(nameVal)
 				.append(destVal)
 				.append(freqVal)
 				.append(nextVal)
-				.append(awayVal);
+				.append(awayVal)
+				.append(deleteBtn);
 
 			// append table row to table body
 			$("#table-body").append(tr);
@@ -140,6 +146,12 @@ $(document).ready(function() {
 		firebase.database().ref("/trains/" + trainKey).set(newTrainInfo);
 	}
 
+	function deleteTrain() {
+		var deleteKey = $(this).attr("value");
+
+		firebase.database().ref("/trains/" + deleteKey).remove();
+	}
+
 // ================== MAIN PROCESSES ==================
 
 	// Initialize Firebase
@@ -157,6 +169,9 @@ $(document).ready(function() {
 		displayTrains(trainsSnapshot.val());
 	});
 
+	// When you click the button in the edit form, update the train's information
 	$("#edit-btn").click(editTrain);
+
+	$("#table-body").on("click", ".delete-btn", deleteTrain);
 
 });
