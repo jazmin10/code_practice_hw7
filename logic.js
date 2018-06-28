@@ -17,4 +17,10 @@ var databaseRef;
 // ================== FUNCTIONS ==================
 
 // ================== MAIN PROCESSES ==================
+
+	// Initialize Firebase
+	firebase.initializeApp(config);
+
+	// Create a reference to the database
+	databaseRef = firebase.database().ref();
 });
