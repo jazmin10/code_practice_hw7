@@ -38,6 +38,7 @@ $(document).ready(function() {
 
 	// Displays train list
 	function displayTrains(trains) {
+		$("#table-body").empty();
 
 		// Make an array of the object's keys
 		var trainsArr = Object.keys(trains);
@@ -55,6 +56,7 @@ $(document).ready(function() {
 
 			// Create a table row
 			var tr = $("<tr>");
+			tr.attr("id", train.name);
 			tr.attr("value", trainItem);
 
 			// Set td cells
@@ -109,6 +111,35 @@ $(document).ready(function() {
 		return moment().add(minsLeft, "m").format("HH:mm A");
 	}
 
+	// When you edit a train...
+	function editTrain() {
+		event.preventDefault();
+
+		// Store the name of the train
+		var trainName = $("#name-edit").val().trim();
+
+		// Find the element with whose id is equal to the name of the train
+		var trainKey = $("#" + trainName).attr("value");
+
+		// Grab new train information
+		var newTrainInfo = {
+			name: trainName,
+			destination: $("#destination-edit").val().trim(),
+			firstTime: $("#first-time-edit").val().trim(),
+			frequency: $("#frequency-edit").val().trim(),
+		};
+
+		// Empty the form
+		$("#name-edit").val("");
+		$("#destination-edit").val("");
+		$("#first-time-edit").val("");
+		$("#frequency-edit").val("");
+
+		// Set the new information to the specific train
+		// We do this by finding the object's path in the database that has the trains information
+		firebase.database().ref("/trains/" + trainKey).set(newTrainInfo);
+	}
+
 // ================== MAIN PROCESSES ==================
 
 	// Initialize Firebase
@@ -126,6 +157,6 @@ $(document).ready(function() {
 		displayTrains(trainsSnapshot.val());
 	});
 
-	// $("#edit-btn").click(editTrain);
+	$("#edit-btn").click(editTrain);
 
 });
